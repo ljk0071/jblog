@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userbook">
+
+	<select id="SelectAll" resultType="UserVo">
+		<![CDATA[
+		select user_no userNo
+				,id
+				,password pw
+				,user_name name
+		from users
+		order by user_no
+		]]>
+	</select>
+	
+	<select id="Select" parameterType="int" resultType="UserVo">
+		<![CDATA[
+		select user_no userNo
+				,id
+				,password pw
+				,user_name name
+		from users
+		where user_no = #{uNo}
+		]]>
+	</select>
+	
+	<select id="SelectChkId" parameterType="String" resultType="String">
+		<![CDATA[
+		select id
+		from users
+		where id = #{id}
+		]]>
+	</select>
+	
+	<select id="GetBlogMaster" parameterType="String" resultType="String">
+		<![CDATA[
+		select id
+			,user_name name
+		from users
+		where id = #{id}
+		]]>
+	</select>
+	
+	<select id="SelectLogin" parameterType="map" resultType="UserVo">
+		<![CDATA[
+		select user_no userNo
+			,user_name name
+			,id
+		from users
+		where id = #{id}
+		and password = #{pw}
+		]]>
+	</select>
+	
+	<insert id="Insert" parameterType="UserVo">
+		<![CDATA[
+		insert into users
+		values(seq_users_no.nextval
+				,#{id}
+				,#{name}
+				,#{pw}
+				,sysdate)
+		]]>
+	</insert>
+	
+	<update id="Update" parameterType="UserVo">
+		<![CDATA[
+		update users
+		set password = #{pw}
+			,user_name = #{name}
+		where user_no = #{uNo}
+		]]>
+		
+	</update>
+	
+	<delete id="Delete" parameterType="int">
+		<![CDATA[
+			delete from users
+			where user_no = #{uNo}
+		]]>
+	</delete>
+
+</mapper>
