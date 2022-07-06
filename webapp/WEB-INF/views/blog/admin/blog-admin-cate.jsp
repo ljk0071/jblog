@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>JBlog</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.12.4.js"></script>
 
 </head>
 
@@ -47,24 +47,7 @@
 		      		</thead>
 		      		<tbody id="cateList">
 		      			<!-- 리스트 영역 -->
-		      			<tr>
-							<td>1</td>
-							<td>자바프로그래밍</td>
-							<td>7</td>
-							<td>자바기초와 객체지향</td>
-						    <td class='text-center'>
-						    	<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg">
-						    </td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>오라클</td>
-							<td>5</td>
-							<td>오라클 설치와 sql문</td>
-						    <td class='text-center'>
-						    	<img class="btnCateDel" src="${pageContext.request.contextPath}/assets/images/delete.jpg">
-						    </td>
-						</tr>
+		      			
 						<!-- 리스트 영역 -->
 					</tbody>
 				</table>
@@ -101,6 +84,101 @@
 	</div>
 	<!-- //wrap -->
 </body>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		fetchList();
+	});
+	
+	$("#btnAddCate").on("click", function() {
+		var name = $("[name='name']").val();
+		var desc = $("[name='desc']").val();
+		var cVo = {}
+		cVo.cateName = name;
+		cVo.description = desc;
+		
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/cateList/add",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cVo),
+
+			dataType : "json",
+			success : function(update) {
+				render(update, "up");
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}//
+		});
+	})
+
+	$("#cateList").on("click",".btnCateDel", function() {
+		var $this = $(this);
+		var cateNo = $this.data("cateno");
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/cateList/delete",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cateNo),
+
+			dataType : "json",
+			success : function(result) {
+				if ( result == 0 ) {
+					alert("삭제 할 수 없습니다.")
+				} else {
+					$("#cate"+cateNo).remove();
+				}
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}//
+		});
+	})
+	
+	function fetchList() {
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/cateList",
+			type : "post",
+
+			dataType : "json",
+			success : function(cList) {
+				for (var i = 0; i < cList.length; i++) {
+					render(cList[i], "down");
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	}
+	
+	function render(cVo, opt) {
+		var str = "";
+		str += "	<tr id='cate"+cVo.cateNo+"'>";
+		str += "		<td>" + cVo.cateNo + "</td>";
+		str += "		<td>" + cVo.cateName + "</td>";
+		str += "		<td>" + cVo.count + "</td>";
+		str += "		<td>" + cVo.description + "</td>";
+		str += "		<td clas='text-center'>";
+		str += "			<img data-cateNo='"+ cVo.cateNo +"' class='btnCateDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'>";
+		str += "		</td>";
+		str += "	</tr>";
+		
+		if (opt == "down") {
+			$("#cateList").append(str);
+		} else if (opt == "up") {
+			$("#cateList").prepend(str);
+		} else {
+			console.log("opt오류");
+		}
+	}
+	
+</script>
 
 
 
