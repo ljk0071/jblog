@@ -29,7 +29,7 @@ public class UserController {
 	@RequestMapping(value="/loginForm", method= {RequestMethod.GET, RequestMethod.POST})
 	public String loginForm(HttpServletRequest request) {
 		String url = request.getHeader("Referer");
-		if (url != null && !url.contains("/user")) {
+		if (url != null && !url.contains("/user") && !url.contains("/admin")) {
 			request.getSession().setAttribute("prevPage", url);
 	    }
 		return "/user/loginForm";
