@@ -21,6 +21,13 @@
 		where id = #{id}
 		and cate_name = #{cateName}
 	</select>
+	<select id="CateInfo" parameterType="String" resultType="CategoryVo">
+		select cate_no cateNo
+			,cate_name cateName
+		from category
+		where id = #{id}
+		order by cate_no desc
+	</select>
 	<select id="CntPost" parameterType="map" resultType="int">
 		select count(post_no) count
 		from category c, post p

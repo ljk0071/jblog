@@ -19,6 +19,11 @@ public class CategoryVo {
 		this.cateName = cateName;
 		this.description = description;
 	}
+	// post작성시 cateinfo전달
+	public CategoryVo (int cateNo, String cateName) {
+		this.cateName = cateName;
+		this.cateNo = cateNo;
+	}
 	public CategoryVo(String cateName, int count, String description) {
 		this.cateName = cateName;
 		this.description = description;

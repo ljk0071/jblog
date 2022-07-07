@@ -28,24 +28,16 @@
 			update blog
 			set 
 		]]>
-		<choose>
-			<when test='saveName != null and blogTitle == null'>
-				logo_file = #{saveName}
-			</when>
-			<when test='blogTitle != null or saveName == null'>
+			<if test='saveName == null'>
 				blog_title = #{blogTitle}
-			</when>
-			<otherwise>
-				blog_title = #{blogTitle}
+			</if>
+			<if test='saveName != null'>
 				logo_file = #{saveName}
-			</otherwise>
-		</choose>
+				,blog_title = #{blogTitle}
+			</if>
 		<![CDATA[
 			where id = #{id}
 		]]>
-			
-		
-		
 	</update>
 
 </mapper>

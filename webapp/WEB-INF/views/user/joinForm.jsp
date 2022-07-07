@@ -85,14 +85,15 @@
 		
 		if ( id == "") {
 			alert("아이디를 입력해 주세요.");
+		} else if (chk != 1) {
+			alert("아이디 중복검사 후 시도해주세요");
 		} else if ( pw == "" ) {
 			alert("비밀번호를 입력해 주세요.");
 		} else if ( name == "" ) {
 			alert("이름를 입력해 주세요.");
 		} else if( agree == false ) {
 			alert("약관에 동의해주세요.");
-		} else {
-			if ( chk == 1 ) {
+		} else if ( chk == 1 ) {
 				$.ajax({
 					
 					url : "${pageContext.request.contextPath}/user/joinCheck",
@@ -110,9 +111,6 @@
 						console.error(status + " : " + error);
 					}
 				});
-			}
-			else {
-				alert("아이디 중복검사 후 시도해주세요");		
 			}
 		}
 	});

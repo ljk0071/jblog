@@ -42,6 +42,10 @@ public class CategoryDao {
 		return cVo;
 	}
 	
+	public List<CategoryVo> Select(String id) {
+		return sqlSession.selectList("category.CateInfo", id);
+	}
+	
 	public int Delete(int cateNo, String id) {
 		Map<String, Object> cMap = new HashMap<String, Object>();
 		cMap.put("id", id);

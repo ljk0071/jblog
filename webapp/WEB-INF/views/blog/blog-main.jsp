@@ -34,13 +34,9 @@
 						<strong>카테고리</strong>
 					</div>
 					<ul id="cateList" class="text-left">
-						<li><a href="$}">카테고리5</a></li>
-						<li><a href="$}">카테고리4</a></li>
-						<li><a href="$}">카테고리3</a></li>
-						<li><a href="$}">카테고리2</a></li>
-						<li><a href="$}">카테고리1</a></li>
-						<li><a href="$}">미분류</a></li>
-						
+						<c:forEach items="${cateInfoList}" var="cate">
+							<li data-cateno="${cate.cateNo}">${cate.cateName}</li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
@@ -48,19 +44,19 @@
 			
 			<div id="post_area">
 				
-				<div id="postBox" class="clearfix">
-						<div id="postTitle" class="text-left"><strong>08.페이징</strong></div>
-						<div id="postDate" class="text-left"><strong>2020/07/23</strong></div>
-						<div id="postNick">${bVo.name}(${bVo.id})님</div>
-				</div>
-				<!-- //postBox -->
+<!-- 				<div id="postBox" class="clearfix"> -->
+<!-- 						<div id="postTitle" class="text-left"><strong>08.페이징</strong></div> -->
+<!-- 						<div id="postDate" class="text-left"><strong>2020/07/23</strong></div> -->
+<%-- 						<div id="postNick">${bVo.name}(${bVo.id})님</div> --%>
+<!-- 				</div> -->
+<!-- 				//postBox -->
 			
-				<div id="post" >
-					대통령은 법률이 정하는 바에 의하여 사면·감형 또는 복권을 명할 수 있다. 
-					대통령의 임기는 5년으로 하며, 중임할 수 없다. 법관은 탄핵 또는 금고 이상의 
-					형의 선고에 의하지 아니하고는 파면되지 아니하며, 징계처분에 의하지 아니하고는 
-					정직·감봉 기타 불리한 처분을 받지 아니한다.
-				</div>
+<!-- 				<div id="post" > -->
+<!-- 					대통령은 법률이 정하는 바에 의하여 사면·감형 또는 복권을 명할 수 있다.  -->
+<!-- 					대통령의 임기는 5년으로 하며, 중임할 수 없다. 법관은 탄핵 또는 금고 이상의  -->
+<!-- 					형의 선고에 의하지 아니하고는 파면되지 아니하며, 징계처분에 의하지 아니하고는  -->
+<!-- 					정직·감봉 기타 불리한 처분을 받지 아니한다. -->
+<!-- 				</div> -->
 				<!-- //post -->
 				
 				<!-- 글이 없는 경우 -->
@@ -77,35 +73,35 @@
 				
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
-					<table>
-						<colgroup>
-							<col style="">
-							<col style="width: 20%;">
-						</colgroup>
+<!-- 					<table> -->
+<%-- 						<colgroup> --%>
+<%-- 							<col style=""> --%>
+<%-- 							<col style="width: 20%;"> --%>
+<%-- 						</colgroup> --%>
 						
-						<tr>
-							<td class="text-left"><a href="">08.페이징</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">07.첨부파일_MultipartResolver</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">06.jquery_ajax</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">05.javaScript</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
-						<tr>
-							<td class="text-left"><a href="">04.spring_어플리케이션_아키텍쳐</a></td>
-							<td class="text-right">2020/07/23</td>
-						</tr>
+<!-- 						<tr> -->
+<!-- 							<td class="text-left"><a href="">08.페이징</a></td> -->
+<!-- 							<td class="text-right">2020/07/23</td> -->
+<!-- 						</tr> -->
+<!-- 						<tr> -->
+<!-- 							<td class="text-left"><a href="">07.첨부파일_MultipartResolver</a></td> -->
+<!-- 							<td class="text-right">2020/07/23</td> -->
+<!-- 						</tr> -->
+<!-- 						<tr> -->
+<!-- 							<td class="text-left"><a href="">06.jquery_ajax</a></td> -->
+<!-- 							<td class="text-right">2020/07/23</td> -->
+<!-- 						</tr> -->
+<!-- 						<tr> -->
+<!-- 							<td class="text-left"><a href="">05.javaScript</a></td> -->
+<!-- 							<td class="text-right">2020/07/23</td> -->
+<!-- 						</tr> -->
+<!-- 						<tr> -->
+<!-- 							<td class="text-left"><a href="">04.spring_어플리케이션_아키텍쳐</a></td> -->
+<!-- 							<td class="text-right">2020/07/23</td> -->
+<!-- 						</tr> -->
 						
 						
-					</table>
+<!-- 					</table> -->
 				</div>
 				<!-- //list -->
 			</div>
@@ -123,4 +119,106 @@
 	</div>
 	<!-- //wrap -->
 </body>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	});
+	
+	$("#cateList").on("click", "li", function() {
+		$("#listTitle tr").remove();
+		var $this = $(this);
+		var cateNo = $this.data("cateno");
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/cate",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cateNo),
+
+			dataType : "json",
+			success : function(pList) {
+				for (var i = 0; i < pList.length; i++) {
+					postListRender(pList[i]);
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	})
+	$("#listTitle").on("click", "td", function() {
+		$("#postBox").remove();
+		$("#post").remove();
+		var $this = $(this);
+		var cateNo = $this.data("cateno");
+		var pTitle = $this.text();
+		var pVo = {}
+		pVo.cateNo = cateNo;
+		pVo.postTitle = pTitle;
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/post",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(pVo),
+
+			dataType : "json",
+			success : function(pVo) {
+					postContentRender(pVo);
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	})
+	
+// 	function fetchList() {
+// 		$.ajax({
+
+// 			url : "${pageContext.request.contextPath}/${bVo.id}/${cateNo}",
+// 			type : "post",
+
+// 			dataType : "json",
+// 			success : function(cList) {
+// 				for (var i = 0; i < pList.length; i++) {
+// 					render(pList[i]);
+// 				}
+// 			},
+// 			error : function(XHR, status, error) {
+// 				console.error(status + " : " + error);
+// 			}
+// 		});
+// 	}
+	
+	function postListRender(pVo) {
+		var str = "";
+		str += "	<table>";
+		str += "		<colgroup>";
+		str += "			<col style=''>";
+		str += "			<col style='width: 20%;'>";
+		str += "		</colgroup>";
+		str += "		<tr>";
+		str += "			<td class='text-left' data-cateno='"+pVo.cateNo+"'>"+pVo.postTitle+"</td>";
+		str += "			<td class='text-right'>"+pVo.regDate+"</td>";
+		str += "		</tr>";
+		str += "	</table>";
+		
+		$("#listTitle").append(str);
+	}
+	
+	function postContentRender(pVo) {
+		var str = "";
+		str += "	<div id='postBox' class='clearfix'>";
+		str += "		<div id='postTitle' class='text-left'><strong>"+pVo.postTitle+"</strong></div>";
+		str += "		<div id='postDate' class='text-left'><strong>"+pVo.regDate+"</strong></div>";
+		str += "		<div id='postNick'>${bVo.name}(${bVo.id})</div>";
+		str += "	</div>";
+		str += "	<div id='post'>";
+		str += "		"+pVo.postContent+"";
+		str += "	</div>";
+		
+		$("#post_area").prepend(str);
+	}
+	
+</script>
 </html>

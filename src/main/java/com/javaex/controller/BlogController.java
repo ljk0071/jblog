@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 
 @Controller
 public class BlogController {
@@ -25,12 +26,25 @@ public class BlogController {
 	@RequestMapping(value="/{id}", method= {RequestMethod.GET, RequestMethod.POST})
 	public String main(Model model, @PathVariable("id") String id) {
 		model.addAttribute("bVo", bService.getBlogInfo(id));
+		model.addAttribute("cateInfoList", bService.getCateInfo(id));
 		return "/blog/blog-main";
 	}
 	@RequestMapping(value="/{id}/admin/basic", method= {RequestMethod.GET, RequestMethod.POST})
 	public String basic(Model model, @PathVariable("id") String id) {
 		model.addAttribute("bVo", bService.getBlogInfo(id));
 		return "/blog/admin/blog-admin-basic";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/{id}/cate", method= {RequestMethod.GET, RequestMethod.POST})
+	public List<PostVo> pList(@PathVariable("id") String id, @RequestBody int cateNo) {
+		return bService.getPostInfo(cateNo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/{id}/post", method= {RequestMethod.GET, RequestMethod.POST})
+	public PostVo post(@PathVariable("id") String id, @RequestBody PostVo pVo) {
+		return bService.getPostContent(pVo);
 	}
 	
 	@RequestMapping(value="/{id}/modify", method= {RequestMethod.GET, RequestMethod.POST})
@@ -66,5 +80,18 @@ public class BlogController {
 		cVo.setId(id);
 		bService.doAddCate(cVo);
 		return bService.getCategory(cVo.getCateName(), id);
+	}
+	
+	@RequestMapping(value="/{id}/admin/writeForm", method= {RequestMethod.GET, RequestMethod.POST})
+	public String writeForm(@PathVariable("id") String id, Model model) {
+		model.addAttribute("bVo", bService.getBlogInfo(id));
+		model.addAttribute("cateInfoList", bService.getCateInfo(id));
+		return "/blog/admin/blog-admin-write";
+	}
+	
+	@RequestMapping(value="/{id}/admin/write", method= {RequestMethod.GET, RequestMethod.POST})
+	public String write(@PathVariable("id") String id, @ModelAttribute PostVo pVo) {
+		bService.doAddPost(pVo);
+		return "redirect:/"+id+"/admin/writeForm";
 	}
 }
