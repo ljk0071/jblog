@@ -27,6 +27,7 @@ public class BlogController {
 	public String main(Model model, @PathVariable("id") String id) {
 		model.addAttribute("bVo", bService.getBlogInfo(id));
 		model.addAttribute("cateInfoList", bService.getCateInfo(id));
+		model.addAttribute("pVo", bService.getLastPost(id));
 		return "/blog/blog-main";
 	}
 	@RequestMapping(value="/{id}/admin/basic", method= {RequestMethod.GET, RequestMethod.POST})
@@ -45,6 +46,12 @@ public class BlogController {
 	@RequestMapping(value="/{id}/post", method= {RequestMethod.GET, RequestMethod.POST})
 	public PostVo post(@PathVariable("id") String id, @RequestBody PostVo pVo) {
 		return bService.getPostContent(pVo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/{id}/postlist", method= {RequestMethod.GET, RequestMethod.POST})
+	public List<PostVo> postlist(@PathVariable("id") String id) {
+		return bService.getLastPostlist(id);
 	}
 	
 	@RequestMapping(value="/{id}/modify", method= {RequestMethod.GET, RequestMethod.POST})

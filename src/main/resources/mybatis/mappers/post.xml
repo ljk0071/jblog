@@ -8,7 +8,7 @@
 			,cate_no cateNo
 			,post_title postTitle
 			,post_content postContent
-			,reg_date regDate
+			,to_char(reg_date, 'yyyy-mm-dd') regDate
 			from post
 			where cate_no = #{cateNo}
 	</select>
@@ -18,10 +18,41 @@
 		,cate_no cateNo
 		,post_title postTitle
 		,post_content postContent
-		,reg_date regDate
+		,to_char(reg_date, 'yyyy-mm-dd') regDate
 		from post
 		where cate_no = #{cateNo}
 		and post_title = #{postTitle}
+	</select>
+	
+	<select id="SelectLastPost" parameterType="String" resultType="PostVo">
+		<![CDATA[
+			select post_no postNo 
+			,cate_no cateNo 
+			,post_title postTitle 
+			,post_content postContent 
+			,to_char(reg_date, 'yyyy-mm-dd') regDate 
+			from post 
+			where cate_no = (select max(cate_no) 
+							from category 
+							where id= #{id}) 
+			and post_no = (select max(post_no) 
+	                		from post 
+	               			where cate_no = (select max(cate_no) 
+	                                			from category 
+	                                			where id= #{id})) 
+		]]>
+	</select>
+	
+	<select id="SelectLastPostlist" parameterType="String" resultType="PostVo">
+		select post_no postNo
+		,cate_no cateNo
+		,post_title postTitle
+		,post_content postContent
+		,to_char(reg_date, 'yyyy-mm-dd') regDate
+		from post
+		where cate_no = (select max(cate_no) cateNo
+						from category
+						where id= #{id})
 	</select>
 	
 	<insert id="Insert" parameterType="PostVo">

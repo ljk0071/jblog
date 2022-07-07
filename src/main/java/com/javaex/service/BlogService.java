@@ -84,4 +84,10 @@ public class BlogService {
 	public PostVo getPostContent(PostVo pVo) {
 		return pDao.Select(pVo);
 	}
+	public PostVo getLastPost(String id) {
+		return pDao.SelectLastPost(id);
+	}
+	public List<PostVo> getLastPostlist (String id) {
+		return pDao.SelectLastPostlist(id);
+	}
 }

@@ -28,5 +28,13 @@ public class PostDao {
 	public PostVo Select(PostVo pVo) {
 		return sqlSession.selectOne("post.Select", pVo);
 	}
+	
+	public PostVo SelectLastPost(String id) {
+		return sqlSession.selectOne("post.SelectLastPost", id);
+	}
+	
+	public List<PostVo> SelectLastPostlist(String id) {
+		return sqlSession.selectList("post.SelectLastPostlist", id);
+	}
 
 }
