@@ -13,6 +13,18 @@
 </head>
 
 <body>
+	<c:choose>
+		<c:when test="${authUser.id != bVo.id}">
+			<div class="center-content">
+		
+				<!-- 메인해더 -->
+				<c:import url="/WEB-INF/views/includes/main-header.jsp"></c:import>
+				
+				<h1>잘못된 접근입니다.</h1>
+
+			</div>
+		</c:when>
+	<c:otherwise>
 	<div id="wrap">
 		
 		<!-- 개인블로그 해더 -->
@@ -83,6 +95,8 @@
 	
 	</div>
 	<!-- //wrap -->
+	</c:otherwise>
+	</c:choose>
 </body>
 
 <script type="text/javascript">

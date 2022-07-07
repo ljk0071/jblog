@@ -53,7 +53,10 @@ public class UserController {
 		session.removeAttribute("authUser");
 		String url = (String)session.getAttribute("prevPage");
 		session.invalidate();
-		return "redirect:"+url;
+		if (url != null) {
+			return "redirect:"+url;
+		}
+		return "redirect:./";
 	}
 	
 	@RequestMapping(value="/joinSuccess", method= {RequestMethod.GET, RequestMethod.POST})

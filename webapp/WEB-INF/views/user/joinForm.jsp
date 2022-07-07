@@ -111,7 +111,6 @@
 						console.error(status + " : " + error);
 					}
 				});
-			}
 		}
 	});
 
