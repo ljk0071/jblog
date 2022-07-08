@@ -130,7 +130,6 @@
 
 	$(document).ready(function() {
 		fetchList();
-// 		fetchCmtList();
 	});
 	
 	
@@ -246,30 +245,28 @@
 		$("#listTitle").append(str);
 	}
 	
-// 	function cmtListRender(cmtVo, opt) {
-// 		var str = "";
-// 		str += "	<table id='cmt"+cmtVo.cmtNo+"' style='height: 30px;'>";
-// 		str += "		<colgroup>";
-// 		str += "			<col style='width: 80px;''>";
-// 		str += "			<col style='width: 540px;''>";
-// 		str += "			<col style='width: 110px;''>";
-// 		str += "			<col style='width: 60px;''>";
-// 		str += "		</colgroup>";
-// 		str += "		<tr>";
-// 		str += "			<td>"+cmtVo.userName+"</td>";
-// 		str += "			<td>"+cmtVo.cmtContent+"</td>";
-// 		str += "			<td>"+cmtVo.regDate+"</td>";
-// 		str += "			<c:if test='${authUser.userNo==cmtVo.userNo}'>";
-// 		str += "				<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
-// 		str += "			</c:if>";
-// 		str += "		</tr>";
-// 		str += "	</table>";
-// 		if (opt == "down") {
-// 			$("#cmtList").append(str);	
-// 		}else if(opt == "up") {
-// 			$("#cmtList").prepend(str);
-// 		}
-// 	}
+	function cmtListRender(cmtVo, opt) {
+		var str = "";
+		str += "	<table id='cmt"+cmtVo.cmtNo+"' style='height: 30px;'>";
+		str += "		<colgroup>";
+		str += "			<col style='width: 80px;''>";
+		str += "			<col style='width: 540px;''>";
+		str += "			<col style='width: 110px;''>";
+		str += "			<col style='width: 60px;''>";
+		str += "		</colgroup>";
+		str += "		<tr>";
+		str += "			<td>"+cmtVo.userName+"</td>";
+		str += "			<td>"+cmtVo.cmtContent+"</td>";
+		str += "			<td>"+cmtVo.regDate+"</td>";
+		str += "			<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+		str += "		</tr>";
+		str += "	</table>";
+		if (opt == "down") {
+			$("#cmtList").append(str);	
+		}else if(opt == "up") {
+			$("#cmtList").prepend(str);
+		}
+	}
 	
 	function postContentRender(pVo) {
 		var str = "";
