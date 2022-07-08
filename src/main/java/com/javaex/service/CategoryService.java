@@ -33,5 +33,8 @@ public class CategoryService {
 	public List<CategoryVo> getCateInfo(String id) {
 		return cDao.Select(id);
 	}
+	public int getLastCate(String id) {
+		return cDao.SelectLast(id);
+	}
 
 }

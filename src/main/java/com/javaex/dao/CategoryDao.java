@@ -38,7 +38,6 @@ public class CategoryDao {
 		CategoryVo cVo = sqlSession.selectOne("category.Select", cMap);
 		cMap.put("cateNo", cVo.getCateNo());
 		cVo.setCount(sqlSession.selectOne("category.CntPost", cMap));
-		System.out.println(cVo);
 		return cVo;
 	}
 	
@@ -56,6 +55,11 @@ public class CategoryDao {
 	
 	public int Insert(CategoryVo cVo) {
 		cnt = sqlSession.insert("category.Insert", cVo);
+		return cnt;
+	}
+	
+	public int SelectLast(String id) {
+		cnt = sqlSession.selectOne("category.SelectLast", id);
 		return cnt;
 	}
 

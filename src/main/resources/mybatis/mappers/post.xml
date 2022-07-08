@@ -43,7 +43,37 @@
 		]]>
 	</select>
 	
-	<select id="SelectLastPostlist" parameterType="String" resultType="PostVo">
+	<select id="SelectSnumEnum" parameterType="map" resultType="PostVo">
+		<![CDATA[	
+			select rn
+			    ,post_no postNo
+			    ,cate_no cateNo
+			    ,post_title postTitle
+			    ,post_content postContent
+			    ,to_char(reg_date, 'yyyy-mm-dd') regDate 
+			from ( select rownum rn
+			    ,post_no
+			    ,cate_no
+			    ,post_title
+			    ,post_content
+			    ,reg_date
+			from ( select post_no
+			            ,cate_no
+			            ,post_title
+			            ,post_content
+			            ,reg_date
+			        from post
+			        where cate_no = (select cate_no
+			                        from category
+			                        where id = #{id}
+			                        and cate_no = #{cateNo})
+			                        order by post_no desc) )
+			where rn >= #{sNum}
+			and rn <= #{eNum}
+		]]>
+	</select>
+	
+	<select id="SelectLastPostList" parameterType="String" resultType="PostVo">
 		select post_no postNo
 		,cate_no cateNo
 		,post_title postTitle
@@ -53,6 +83,17 @@
 		where cate_no = (select max(cate_no) cateNo
 						from category
 						where id= #{id})
+	</select>
+	
+	<select id="SelectTotalCnt" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) count
+			from post
+			where cate_no = (select cate_no
+							from category
+							where id = #{id}
+							and cate_no = #{cateNo})
+		]]>
 	</select>
 	
 	<insert id="Insert" parameterType="PostVo">

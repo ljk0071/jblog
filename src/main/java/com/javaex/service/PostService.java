@@ -30,8 +30,8 @@ public class PostService {
 		return pDao.SelectLastPost(id);
 	}
 
-	public List<PostVo> getLastPostlist(String id) {
-		return pDao.SelectLastPostlist(id);
+	public List<PostVo> getLastPostList(String id) {
+		return pDao.SelectLastPostList(id);
 	}
 
 }

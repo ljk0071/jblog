@@ -39,11 +39,11 @@ public class PostController {
 		return pService.getPostContent(pVo);
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "/{id}/postlist", method = { RequestMethod.GET, RequestMethod.POST })
-	public List<PostVo> postlist(@PathVariable("id") String id) {
-		return pService.getLastPostlist(id);
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "/{id}/postList", method = { RequestMethod.GET, RequestMethod.POST })
+//	public List<PostVo> postlist(@PathVariable("id") String id) {
+//		return pService.getLastPostList(id);
+//	}
 
 	@RequestMapping(value = "/{id}/admin/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String writeForm(@PathVariable("id") String id, Model model) {

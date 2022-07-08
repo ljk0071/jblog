@@ -22,19 +22,19 @@
 				<div id="profile">
 					
 					<!-- 기본이미지 -->
-					<img id="proImg" src="${pageContext.request.contextPath}/upload/${bVo.saveName}">
+					<img id="proImg" src="${pageContext.request.contextPath}/upload/${bMap.bVo.saveName}">
 					
 					<!-- 사용자업로드 이미지 -->
 					<%-- <img id="proImg" src=""> --%>
 					
-					<div id="nick">${bVo.name}(${bVo.id})님</div>
+					<div id="nick">${bMap.bVo.name}(${bMap.bVo.id})님</div>
 				</div>
 				<div id="cate">
 					<div class="text-left">
 						<strong>카테고리</strong>
 					</div>
 					<ul id="cateList" class="text-left">
-						<c:forEach items="${cateInfoList}" var="cate">
+						<c:forEach items="${bMap.cateInfoList}" var="cate">
 							<li data-cateno="${cate.cateNo}">${cate.cateName}</li>
 						</c:forEach>
 					</ul>
@@ -44,14 +44,14 @@
 			
 			<div id="post_area">
 			<c:choose>
-				<c:when test="${pVo != null}">
+				<c:when test="${bMap.pVo != null}">
 					<div id='postBox' class='clearfix'>
-						<div id='postTitle' class='text-left'><strong>${pVo.postTitle}</strong></div>
-						<div id='postDate' class='text-left'><strong>${pVo.regDate}</strong></div>
-						<div id='postNick'>${bVo.name}(${bVo.id})</div>
+						<div id='postTitle' class='text-left'><strong>${bMap.pVo.postTitle}</strong></div>
+						<div id='postDate' class='text-left'><strong>${bMap.pVo.regDate}</strong></div>
+						<div id='postNick'>${bMap.bVo.name}(${bMap.bVo.id})</div>
 					</div>
 					<div id='post'>
-						${pVo.postContent}
+						${bMap.pVo.postContent}
 					</div>
 				</c:when>		
 				<c:otherwise>
@@ -74,7 +74,7 @@
 							<col style="width: 100px">
 						</colgroup>
 						<tr>
-							<td class="userId" data-postno="${pVo.postNo}" data-userno="${authUser.userNo}">${authUser.name}</td>
+							<td class="userId" data-postno="${bMap.pVo.postNo}" data-userno="${authUser.userNo}">${authUser.name}</td>
 							<td><input type="text" id="cmtContent" value="" style="width:590px;height:25px;"></td>
 							<c:if test="${authUser != null}">
 								<td><button id="cmtBtn" style="width:100px;height:30px;">저장</button></td>
@@ -83,7 +83,7 @@
 					</table>
 				</div>
 				<div id="cmtList">
-					<c:forEach items="${cmtList}" var="cmt">
+					<c:forEach items="${bMap.cmtList}" var="cmt">
 						<table id='cmt${cmt.cmtNo}' style="height: 30px;">
 							<colgroup>
 								<col style='width: 80px;'>
@@ -104,10 +104,39 @@
 				</div>
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
-					
+					<c:forEach items="${bMap.pList}" var="pVo">
+						<table>
+							<colgroup>
+							<col style=''>
+							<col style='width: 20%;'>
+							</colgroup>
+							<tr>
+							<td class='text-left' data-cateno='"+pVo.cateNo+"'>${pVo.postTitle}</td>
+							<td class='text-right'>${pVo.regDate}</td>
+							</tr>
+						</table>
+					</c:forEach>
 				</div>
-				<div id="paging">
-					
+				<div id="paging" style="margin: 0px 0px 0px 350px;">
+					<ul>
+						<c:if test="${bMap.prev == true}">
+							<li style="float:left;margin: 0px 8px 0px 8px;"> <a href="${pageContext.request.contextPath}/${bMap.bVo.id}?crtPage=${bMap.startPageNum-pMap.pageBtnCount}">◀</a></li>
+						</c:if>
+						<c:forEach begin="${bMap.startPageNum}" end="${bMap.endPageNum}" step="1" var="page">
+							<c:choose>
+								<c:when test="${bMap.crtPage==page}">
+									<li style="float:left;margin: 0px 8px 0px 8px;"><strong><a href="${pageContext.request.contextPath}//${bMap.bVo.id}?crtPage=${page}">${page}</a></strong></li>
+								</c:when>
+								<c:otherwise>
+									<li style="float:left;margin: 0px 8px 0px 8px;"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?crtPage=${page}">${page}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${bMap.next == true}">
+							<li style="float:left;margin: 0px 40px 0px 40px;"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?crtPage=${bMap.endPageNum+1}">▶</a></li>
+						</c:if>
+					</ul>
+				<div class="clear"></div>
 				</div>
 				<!-- //list -->
 			</div>
@@ -129,9 +158,97 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		fetchList();
+// 		fetchList();
 	});
 	
+// 	function fetchList() {
+// 		$.ajax({
+
+// 			url : "${pageContext.request.contextPath}/${bVo.id}/postList",
+// 			type : "post",
+
+// 			dataType : "json",
+// 			success : function(pList) {
+// 				for (var i = 0; i < pList.length; i++) {
+// 					postListRender(pList[i]);
+// 				}
+// 			},
+// 			error : function(XHR, status, error) {
+// 				console.error(status + " : " + error);
+// 			}
+// 		});
+// 	}
+	function postListRender(pVo) {
+		var str = "";
+		str += "	<table>";
+		str += "		<colgroup>";
+		str += "			<col style=''>";
+		str += "			<col style='width: 20%;'>";
+		str += "		</colgroup>";
+		str += "		<tr>";
+		str += "			<td class='text-left' data-cateno='"+pVo.cateNo+"'>"+pVo.postTitle+"</td>";
+		str += "			<td class='text-right'>"+pVo.regDate+"</td>";
+		str += "		</tr>";
+		str += "	</table>";
+		
+		$("#listTitle").append(str);
+	}
+	
+	function cmtListRender(cmtVo, opt) {
+		var str = "";
+		str += "	<table id='cmt"+cmtVo.cmtNo+"' style='height: 30px;'>";
+		str += "		<colgroup>";
+		str += "			<col style='width: 80px;''>";
+		str += "			<col style='width: 540px;''>";
+		str += "			<col style='width: 110px;''>";
+		str += "			<col style='width: 60px;''>";
+		str += "		</colgroup>";
+		str += "		<tr>";
+		str += "			<td>"+cmtVo.userName+"</td>";
+		str += "			<td>"+cmtVo.cmtContent+"</td>";
+		str += "			<td>"+cmtVo.regDate+"</td>";
+		str += "			<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+		str += "		</tr>";
+		str += "	</table>";
+		if (opt == "down") {
+			$("#cmtList").append(str);	
+		}else if(opt == "up") {
+			$("#cmtList").prepend(str);
+		}
+	}
+	
+	function postContentRender(pVo) {
+		var str = "";
+		str += "	<div id='postBox' class='clearfix'>";
+		str += "		<div data-postno='"+pVo.postNo+"' id='postTitle' class='text-left'><strong>"+pVo.postTitle+"</strong></div>";
+		str += "		<div id='postDate' class='text-left'><strong>"+pVo.regDate+"</strong></div>";
+		str += "		<div id='postNick'>${bVo.name}(${bVo.id})</div>";
+		str += "	</div>";
+		str += "	<div id='post'>";
+		str += "		"+pVo.postContent+"";
+		str += "	</div>";
+		
+		$("#post_area").prepend(str);
+	}
+	
+	
+	function fetchCmtList() {
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/cmtlist",
+			type : "post",
+
+			dataType : "json",
+			success : function(cmtList) {
+				for (var i = 0; i < cmtList.length; i++) {
+					cmtListRender(cmtList[i], "down");
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	}
 	
 	$("#cateList").on("click", "li", function() {
 		$("#listTitle tr").remove();
@@ -227,92 +344,5 @@
 			}//
 		});
 	})
-	function postListRender(pVo) {
-		var str = "";
-		str += "	<table>";
-		str += "		<colgroup>";
-		str += "			<col style=''>";
-		str += "			<col style='width: 20%;'>";
-		str += "		</colgroup>";
-		str += "		<tr>";
-		str += "			<td class='text-left' data-cateno='"+pVo.cateNo+"'>"+pVo.postTitle+"</td>";
-		str += "			<td class='text-right'>"+pVo.regDate+"</td>";
-		str += "		</tr>";
-		str += "	</table>";
-		
-		$("#listTitle").append(str);
-	}
-	
-	function cmtListRender(cmtVo, opt) {
-		var str = "";
-		str += "	<table id='cmt"+cmtVo.cmtNo+"' style='height: 30px;'>";
-		str += "		<colgroup>";
-		str += "			<col style='width: 80px;''>";
-		str += "			<col style='width: 540px;''>";
-		str += "			<col style='width: 110px;''>";
-		str += "			<col style='width: 60px;''>";
-		str += "		</colgroup>";
-		str += "		<tr>";
-		str += "			<td>"+cmtVo.userName+"</td>";
-		str += "			<td>"+cmtVo.cmtContent+"</td>";
-		str += "			<td>"+cmtVo.regDate+"</td>";
-		str += "			<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
-		str += "		</tr>";
-		str += "	</table>";
-		if (opt == "down") {
-			$("#cmtList").append(str);	
-		}else if(opt == "up") {
-			$("#cmtList").prepend(str);
-		}
-	}
-	
-	function postContentRender(pVo) {
-		var str = "";
-		str += "	<div id='postBox' class='clearfix'>";
-		str += "		<div data-postno='"+pVo.postNo+"' id='postTitle' class='text-left'><strong>"+pVo.postTitle+"</strong></div>";
-		str += "		<div id='postDate' class='text-left'><strong>"+pVo.regDate+"</strong></div>";
-		str += "		<div id='postNick'>${bVo.name}(${bVo.id})</div>";
-		str += "	</div>";
-		str += "	<div id='post'>";
-		str += "		"+pVo.postContent+"";
-		str += "	</div>";
-		
-		$("#post_area").prepend(str);
-	}
-	
-	function fetchList() {
-		$.ajax({
-
-			url : "${pageContext.request.contextPath}/${bVo.id}/postlist",
-			type : "post",
-
-			dataType : "json",
-			success : function(pList) {
-				for (var i = 0; i < pList.length; i++) {
-					postListRender(pList[i]);
-				}
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	}
-	function fetchCmtList() {
-		$.ajax({
-
-			url : "${pageContext.request.contextPath}/${bVo.id}/cmtlist",
-			type : "post",
-
-			dataType : "json",
-			success : function(cmtList) {
-				for (var i = 0; i < cmtList.length; i++) {
-					cmtListRender(cmtList[i], "down");
-				}
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	}
 </script>
 </html>
