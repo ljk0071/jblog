@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  파일이 생성됨 - 목요일-7월-07-2022   
+--  파일이 생성됨 - 금요일-7월-08-2022   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Sequence SEQ_CATEGORY_NO
@@ -10,17 +10,17 @@
 --  DDL for Sequence SEQ_COMMENTS_NO
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "JBLOG"."SEQ_COMMENTS_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "JBLOG"."SEQ_COMMENTS_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 13 NOCACHE  NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SEQ_POST_NO
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "JBLOG"."SEQ_POST_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 6 NOCACHE  NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "JBLOG"."SEQ_POST_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 18 NOCACHE  NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SEQ_USERS_NO
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "JBLOG"."SEQ_USERS_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 5 NOCACHE  NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "JBLOG"."SEQ_USERS_NO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 6 NOCACHE  NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Table BLOG
 --------------------------------------------------------
@@ -97,6 +97,7 @@
 REM INSERTING into JBLOG.BLOG
 SET DEFINE OFF;
 Insert into JBLOG.BLOG (ID,BLOG_TITLE,LOGO_FILE) values ('asd','28_홀수_이준규','16571709816753fb7a3e4-2a32-43b5-963a-e165115a671d.png');
+Insert into JBLOG.BLOG (ID,BLOG_TITLE,LOGO_FILE) values ('asd123','이준규의 블로그입니다.',null);
 REM INSERTING into JBLOG.CATEGORY
 SET DEFINE OFF;
 Insert into JBLOG.CATEGORY (CATE_NO,ID,CATE_NAME,DESCRIPTION,REG_DATE) values (2,'asd','213123','123123',to_date('22/07/06','RR/MM/DD'));
@@ -106,16 +107,32 @@ Insert into JBLOG.CATEGORY (CATE_NO,ID,CATE_NAME,DESCRIPTION,REG_DATE) values (4
 Insert into JBLOG.CATEGORY (CATE_NO,ID,CATE_NAME,DESCRIPTION,REG_DATE) values (5,'asd','213','zzzz',to_date('22/07/06','RR/MM/DD'));
 REM INSERTING into JBLOG.COMMENTS
 SET DEFINE OFF;
+Insert into JBLOG.COMMENTS (CMT_NO,POST_NO,USER_NO,CMT_CONTENT,REG_DATE) values (9,5,4,'코멘트내용',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.COMMENTS (CMT_NO,POST_NO,USER_NO,CMT_CONTENT,REG_DATE) values (11,5,5,'gd',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.COMMENTS (CMT_NO,POST_NO,USER_NO,CMT_CONTENT,REG_DATE) values (12,5,5,'ㅎㅇㅎㅇ',to_date('22/07/08','RR/MM/DD'));
 REM INSERTING into JBLOG.POST
 SET DEFINE OFF;
 Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (3,1,'213','122112',to_date('22/07/07','RR/MM/DD'));
 Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (4,2,'zzzzzzzz','zzzzzzzzzzzzz',to_date('22/07/07','RR/MM/DD'));
 Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (5,5,'제발 되라','제발 되주세요',to_date('22/07/07','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (6,4,'ㅇㄹㅇㄴ','ㅇㄴㄹ',to_date('22/07/07','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (7,3,'ㄴㅇㄹ','ㄴㅇㄹㄴㅇㄹ',to_date('22/07/07','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (8,5,'dfgdfg','fddfgfdg',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (9,5,'1','1',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (10,5,'2','2',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (11,5,'3','3',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (12,5,'4','4',to_date('22/07/08','RR/MM/DD'));
 Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (1,1,'1231','213',to_date('22/07/07','RR/MM/DD'));
 Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (2,1,'ㅁㄴㅇㅁㄴㅇ','ㅁㄴㅇㅁㄴㅇㅁㄴㅇ',to_date('22/07/07','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (13,5,'5','5',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (14,5,'6','6',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (15,5,'7','7',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (16,5,'8','8',to_date('22/07/08','RR/MM/DD'));
+Insert into JBLOG.POST (POST_NO,CATE_NO,POST_TITLE,POST_CONTENT,REG_DATE) values (17,5,'9','9',to_date('22/07/08','RR/MM/DD'));
 REM INSERTING into JBLOG.USERS
 SET DEFINE OFF;
 Insert into JBLOG.USERS (USER_NO,ID,USER_NAME,PASSWORD,JOIN_DATE) values (4,'asd','zz','zz',to_date('22/07/06','RR/MM/DD'));
+Insert into JBLOG.USERS (USER_NO,ID,USER_NAME,PASSWORD,JOIN_DATE) values (5,'asd123','이준규','zz',to_date('22/07/07','RR/MM/DD'));
 --------------------------------------------------------
 --  Constraints for Table COMMENTS
 --------------------------------------------------------
