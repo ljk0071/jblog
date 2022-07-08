@@ -113,4 +113,10 @@ public class BlogController {
 	public List<CommentVo> setCmtList(@PathVariable("id") String id) {
 		return bService.getCmtList(id);
 	}
+	@ResponseBody
+	@RequestMapping(value="/{id}/cmt/delete", method= {RequestMethod.GET, RequestMethod.POST})
+	public int deletecmt(@PathVariable("id") String id, @RequestBody int cmtNo ) {
+		int result = bService.doDeleteCmt(cmtNo);
+		return result;
+	}
 }

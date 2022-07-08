@@ -112,40 +112,6 @@
 		fetchCmtList();
 	});
 	
-	function fetchList() {
-		$.ajax({
-
-			url : "${pageContext.request.contextPath}/${bVo.id}/postlist",
-			type : "post",
-
-			dataType : "json",
-			success : function(pList) {
-				for (var i = 0; i < pList.length; i++) {
-					postListRender(pList[i]);
-				}
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	}
-	function fetchCmtList() {
-		$.ajax({
-
-			url : "${pageContext.request.contextPath}/${bVo.id}/cmtlist",
-			type : "post",
-
-			dataType : "json",
-			success : function(cmtList) {
-				for (var i = 0; i < cmtList.length; i++) {
-					cmtListRender(cmtList[i], "down");
-				}
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	}
 	
 	$("#cateList").on("click", "li", function() {
 		$("#listTitle tr").remove();
@@ -220,6 +186,29 @@
 			}
 		});
 	})
+	$("#cmtList").on("click", ".btnCmtDel", function() {
+		var cmtNo = $(".btnCmtDel").data("cmtno");
+		$.ajax({
+	
+			url : "${pageContext.request.contextPath}/${bVo.id}/cmt/delete",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cmtNo),
+	
+			dataType : "json",
+			success : function(result) {
+				if ( result == 0 ) {
+					alert("삭제 할 수 없습니다.")
+				} else {
+					$("#cmt"+cmtNo).remove();
+				}
+				
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}//
+		});
+	})
 	function postListRender(pVo) {
 		var str = "";
 		str += "	<table>";
@@ -238,7 +227,7 @@
 	
 	function cmtListRender(cmtVo, opt) {
 		var str = "";
-		str += "	<table style='height: 30px;'>";
+		str += "	<table id='cmt"+cmtVo.cmtNo+"' id=style='height: 30px;'>";
 		str += "		<colgroup>";
 		str += "			<col style='width: 80px;''>";
 		str += "			<col style='width: 540px;''>";
@@ -249,7 +238,9 @@
 		str += "			<td>"+cmtVo.userName+"</td>";
 		str += "			<td>"+cmtVo.cmtContent+"</td>";
 		str += "			<td>"+cmtVo.regDate+"</td>";
-		str += "			<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+		str += "			<c:if test='${authUser.userNo==cmtVo.userNo}'>";
+		str += "				<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+		str += "			</c:if>";
 		str += "		</tr>";
 		str += "	</table>";
 		if (opt == "down") {
@@ -273,5 +264,39 @@
 		$("#post_area").prepend(str);
 	}
 	
+	function fetchList() {
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/postlist",
+			type : "post",
+
+			dataType : "json",
+			success : function(pList) {
+				for (var i = 0; i < pList.length; i++) {
+					postListRender(pList[i]);
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	}
+	function fetchCmtList() {
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/cmtlist",
+			type : "post",
+
+			dataType : "json",
+			success : function(cmtList) {
+				for (var i = 0; i < cmtList.length; i++) {
+					cmtListRender(cmtList[i], "down");
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	}
 </script>
 </html>

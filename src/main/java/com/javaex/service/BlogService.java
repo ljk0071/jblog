@@ -101,4 +101,7 @@ public class BlogService {
 	public List<CommentVo> getCmtList(String id) {
 		return cmtDao.SelectAll(id);
 	}
+	public int doDeleteCmt(int cmtNo) {
+		return cmtDao.Delete(cmtNo);
+	}
 }

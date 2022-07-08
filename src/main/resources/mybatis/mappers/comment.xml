@@ -5,6 +5,7 @@
 	
 	<select id="Select" parameterType="CommentVo" resultType="CommentVo">
 		select post_no postNO
+			,c.user_no userNo
 			,user_name userName
 			,cmt_content cmtContent
 			,to_char(reg_date, 'yyyy-mm-dd') regDate
@@ -18,6 +19,7 @@
 	<select id="SelectAll" parameterType="String" resultType="CommentVo">
 		select cmt_no cmtNo 
 			,post_no postNO
+			,c.user_no userNo
 			,user_name userName
 			,cmt_content cmtContent
 			,to_char(reg_date, 'yyyy-mm-dd') regDate
@@ -42,6 +44,11 @@
 					,SYSDATE )
 		]]>
 	</insert>
+	
+	<delete id="Delete" parameterType="int">
+		delete from comments
+		where cmt_no = #{cmtNo}
+	</delete>
 	
 
 </mapper>

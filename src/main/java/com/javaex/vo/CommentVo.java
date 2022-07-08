@@ -7,8 +7,9 @@ public class CommentVo {
 	
 	public CommentVo() {
 	}
-	public CommentVo(int postNo, String userName, String cmtContent, String regDate) {
+	public CommentVo(int postNo, int userNo, String userName, String cmtContent, String regDate) {
 		this.postNo = postNo;
+		this.userNo = userNo;
 		this.userName = userName;
 		this.cmtContent = cmtContent;
 		this.regDate = regDate;
