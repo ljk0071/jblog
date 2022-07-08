@@ -207,7 +207,9 @@
 		});
 	})
 	$("#cmtList").on("click", ".btnCmtDel", function() {
-		var cmtNo = $(".btnCmtDel").data("cmtno");
+		var $this = $(this);
+		var cmtNo = $this.data("cmtno");
+		console.log(cmtNo);
 		$.ajax({
 	
 			url : "${pageContext.request.contextPath}/${bVo.id}/cmt/delete",
@@ -216,12 +218,8 @@
 			data : JSON.stringify(cmtNo),
 	
 			dataType : "json",
-			success : function(result) {
-				if ( result == 0 ) {
-					alert("삭제 할 수 없습니다.")
-				} else {
-					$("#cmt"+cmtNo).remove();
-				}
+			success : function() {
+				$("#cmt"+cmtNo).remove();
 				
 			},
 			error : function(XHR, status, error) {
