@@ -83,9 +83,30 @@
 					</table>
 				</div>
 				<div id="cmtList">
+					<c:forEach items="${cmtList}" var="cmt">
+						<table id='cmt${cmt.cmtNo}' style="height: 30px;">
+							<colgroup>
+								<col style='width: 80px;'>
+								<col style='width: 540px;'>
+								<col style='width: 110px;'>
+								<col style='width: 60px;'>
+							</colgroup>
+							<tr>
+								<td>${cmt.userName}</td>
+								<td>${cmt.cmtContent}</td>
+								<td>${cmt.regDate}</td>
+							<c:if test='${authUser.userNo == cmt.userNo}'>
+								<td><img data-cmtno='${cmt.cmtNo}' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>
+							</c:if>
+							</tr>
+						</table>
+					</c:forEach>
 				</div>
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
+					
+				</div>
+				<div id="paging">
 					
 				</div>
 				<!-- //list -->
@@ -109,7 +130,7 @@
 
 	$(document).ready(function() {
 		fetchList();
-		fetchCmtList();
+// 		fetchCmtList();
 	});
 	
 	
@@ -179,7 +200,7 @@
 			dataType : "json",
 			success : function(cmtVo) {
 					cmtListRender(cmtVo, "up");
-					$("cmtContent").val("");
+					$("#cmtContent").val("");
 			},
 			error : function(XHR, status, error) {
 				console.error(status + " : " + error);
@@ -225,30 +246,30 @@
 		$("#listTitle").append(str);
 	}
 	
-	function cmtListRender(cmtVo, opt) {
-		var str = "";
-		str += "	<table id='cmt"+cmtVo.cmtNo+"' id=style='height: 30px;'>";
-		str += "		<colgroup>";
-		str += "			<col style='width: 80px;''>";
-		str += "			<col style='width: 540px;''>";
-		str += "			<col style='width: 110px;''>";
-		str += "			<col style='width: 60px;''>";
-		str += "		</colgroup>";
-		str += "		<tr>";
-		str += "			<td>"+cmtVo.userName+"</td>";
-		str += "			<td>"+cmtVo.cmtContent+"</td>";
-		str += "			<td>"+cmtVo.regDate+"</td>";
-		str += "			<c:if test='${authUser.userNo==cmtVo.userNo}'>";
-		str += "				<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
-		str += "			</c:if>";
-		str += "		</tr>";
-		str += "	</table>";
-		if (opt == "down") {
-			$("#cmtList").append(str);	
-		}else if(opt == "up") {
-			$("#cmtList").prepend(str);
-		}
-	}
+// 	function cmtListRender(cmtVo, opt) {
+// 		var str = "";
+// 		str += "	<table id='cmt"+cmtVo.cmtNo+"' style='height: 30px;'>";
+// 		str += "		<colgroup>";
+// 		str += "			<col style='width: 80px;''>";
+// 		str += "			<col style='width: 540px;''>";
+// 		str += "			<col style='width: 110px;''>";
+// 		str += "			<col style='width: 60px;''>";
+// 		str += "		</colgroup>";
+// 		str += "		<tr>";
+// 		str += "			<td>"+cmtVo.userName+"</td>";
+// 		str += "			<td>"+cmtVo.cmtContent+"</td>";
+// 		str += "			<td>"+cmtVo.regDate+"</td>";
+// 		str += "			<c:if test='${authUser.userNo==cmtVo.userNo}'>";
+// 		str += "				<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+// 		str += "			</c:if>";
+// 		str += "		</tr>";
+// 		str += "	</table>";
+// 		if (opt == "down") {
+// 			$("#cmtList").append(str);	
+// 		}else if(opt == "up") {
+// 			$("#cmtList").prepend(str);
+// 		}
+// 	}
 	
 	function postContentRender(pVo) {
 		var str = "";

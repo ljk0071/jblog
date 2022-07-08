@@ -29,6 +29,7 @@ public class BlogController {
 		model.addAttribute("bVo", bService.getBlogInfo(id));
 		model.addAttribute("cateInfoList", bService.getCateInfo(id));
 		model.addAttribute("pVo", bService.getLastPost(id));
+		model.addAttribute("cmtList", bService.getCmtList(id));
 		return "/blog/blog-main";
 	}
 	@RequestMapping(value="/{id}/admin/basic", method= {RequestMethod.GET, RequestMethod.POST})
