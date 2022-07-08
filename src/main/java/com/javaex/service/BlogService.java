@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.dao.CategoryDao;
+import com.javaex.dao.CommentDao;
 import com.javaex.dao.PostDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.CommentVo;
 import com.javaex.vo.PostVo;
 
 @Service
@@ -26,6 +28,8 @@ public class BlogService {
 	private CategoryDao cDao;
 	@Autowired
 	private PostDao pDao;
+	@Autowired
+	private CommentDao cmtDao;
 	
 	public BlogVo getBlogInfo(String id) {
 		return bDao.getBlogInfo(id);
@@ -89,5 +93,12 @@ public class BlogService {
 	}
 	public List<PostVo> getLastPostlist (String id) {
 		return pDao.SelectLastPostlist(id);
+	}
+	public CommentVo doAddCmt(CommentVo cmtVo) {
+		cmtDao.InsertCmt(cmtVo);
+		return cmtDao.Select(cmtVo);
+	}
+	public List<CommentVo> getCmtList(String id) {
+		return cmtDao.SelectAll(id);
 	}
 }

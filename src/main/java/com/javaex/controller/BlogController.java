@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.CommentVo;
 import com.javaex.vo.PostVo;
 
 @Controller
@@ -70,7 +71,7 @@ public class BlogController {
 	
 	@ResponseBody
 	@RequestMapping(value="/{id}/cateList", method= {RequestMethod.GET, RequestMethod.POST})
-	public List<CategoryVo> modifycateList(@PathVariable("id") String id) {
+	public List<CategoryVo> setcateList(@PathVariable("id") String id) {
 		return bService.getCateList(id);
 	}
 	
@@ -100,5 +101,16 @@ public class BlogController {
 	public String write(@PathVariable("id") String id, @ModelAttribute PostVo pVo) {
 		bService.doAddPost(pVo);
 		return "redirect:/"+id+"/admin/writeForm";
+	}
+	@ResponseBody
+	@RequestMapping(value="/{id}/comment", method= {RequestMethod.GET, RequestMethod.POST})
+	public CommentVo addCmt(@PathVariable("id") String id, @RequestBody CommentVo cmtVo ) {
+		return bService.doAddCmt(cmtVo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/{id}/cmtlist", method= {RequestMethod.GET, RequestMethod.POST})
+	public List<CommentVo> setCmtList(@PathVariable("id") String id) {
+		return bService.getCmtList(id);
 	}
 }

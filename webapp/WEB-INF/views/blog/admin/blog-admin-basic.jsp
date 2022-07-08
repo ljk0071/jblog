@@ -14,14 +14,7 @@
 <body>
 	<c:choose>
 		<c:when test="${authUser.id != bVo.id}">
-			<div class="center-content">
-		
-				<!-- 메인해더 -->
-				<c:import url="/WEB-INF/views/includes/main-header.jsp"></c:import>
-				
-				<h1>잘못된 접근입니다.</h1>
-
-			</div>
+			<c:import url="/WEB-INF/views/error/403.jsp"></c:import>
 		</c:when>
 	<c:otherwise>
 	<div id="wrap">

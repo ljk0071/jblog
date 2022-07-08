@@ -66,7 +66,24 @@
 					</div>
 				</c:otherwise>
 			</c:choose>
-				
+				<div id="comment">
+					<table style="height: 30px;">
+						<colgroup>
+							<col style="width: 100px;">
+							<col style="width: 590px;">
+							<col style="width: 100px">
+						</colgroup>
+						<tr>
+							<td class="userId" data-postno="${pVo.postNo}" data-userno="${authUser.userNo}">${authUser.name}</td>
+							<td><input type="text" id="cmtContent" value="" style="width:590px;height:25px;"></td>
+							<c:if test="${authUser != null}">
+								<td><button id="cmtBtn" style="width:100px;height:30px;">저장</button></td>
+							</c:if>
+						</tr>
+					</table>
+				</div>
+				<div id="cmtList">
+				</div>
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
 					
@@ -92,6 +109,7 @@
 
 	$(document).ready(function() {
 		fetchList();
+		fetchCmtList();
 	});
 	
 	function fetchList() {
@@ -104,6 +122,23 @@
 			success : function(pList) {
 				for (var i = 0; i < pList.length; i++) {
 					postListRender(pList[i]);
+				}
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	}
+	function fetchCmtList() {
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/cmtlist",
+			type : "post",
+
+			dataType : "json",
+			success : function(cmtList) {
+				for (var i = 0; i < cmtList.length; i++) {
+					cmtListRender(cmtList[i], "down");
 				}
 			},
 			error : function(XHR, status, error) {
@@ -159,6 +194,32 @@
 			}
 		});
 	})
+	$("#cmtBtn").on("click", function() {
+		var userNo = $(".userId").data("userno");
+		var cmtContent = $("#cmtContent").val();
+		var postNo = $(".userId").data("postno");
+		var cmtVo = {}
+		cmtVo.userNo = userNo;
+		cmtVo.cmtContent = cmtContent;
+		cmtVo.postNo = postNo;
+		console.log(cmtVo)
+		$.ajax({
+
+			url : "${pageContext.request.contextPath}/${bVo.id}/comment",
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cmtVo),
+
+			dataType : "json",
+			success : function(cmtVo) {
+					cmtListRender(cmtVo, "up");
+					$("cmtContent").val("");
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	})
 	function postListRender(pVo) {
 		var str = "";
 		str += "	<table>";
@@ -175,10 +236,33 @@
 		$("#listTitle").append(str);
 	}
 	
+	function cmtListRender(cmtVo, opt) {
+		var str = "";
+		str += "	<table style='height: 30px;'>";
+		str += "		<colgroup>";
+		str += "			<col style='width: 80px;''>";
+		str += "			<col style='width: 540px;''>";
+		str += "			<col style='width: 110px;''>";
+		str += "			<col style='width: 60px;''>";
+		str += "		</colgroup>";
+		str += "		<tr>";
+		str += "			<td>"+cmtVo.userName+"</td>";
+		str += "			<td>"+cmtVo.cmtContent+"</td>";
+		str += "			<td>"+cmtVo.regDate+"</td>";
+		str += "			<td><img data-cmtno='"+ cmtVo.cmtNo +"' class='btnCmtDel' src='${pageContext.request.contextPath}/assets/images/delete.jpg'></td>";
+		str += "		</tr>";
+		str += "	</table>";
+		if (opt == "down") {
+			$("#cmtList").append(str);	
+		}else if(opt == "up") {
+			$("#cmtList").prepend(str);
+		}
+	}
+	
 	function postContentRender(pVo) {
 		var str = "";
 		str += "	<div id='postBox' class='clearfix'>";
-		str += "		<div id='postTitle' class='text-left'><strong>"+pVo.postTitle+"</strong></div>";
+		str += "		<div data-postno='"+pVo.postNo+"' id='postTitle' class='text-left'><strong>"+pVo.postTitle+"</strong></div>";
 		str += "		<div id='postDate' class='text-left'><strong>"+pVo.regDate+"</strong></div>";
 		str += "		<div id='postNick'>${bVo.name}(${bVo.id})</div>";
 		str += "	</div>";
