@@ -41,6 +41,79 @@
 		]]>
 	</select>
 	
+	<select id="NameTotal" parameterType="String" resultType="int">
+		<![CDATA[
+		select count(*) count
+		from blog b, users u
+		where b.id = u.id 
+		and user_name like '%'||#{keyword}||'%'
+		]]>
+	</select>
+	
+	<select id="TitleTotal" parameterType="String" resultType="int">
+		<![CDATA[
+		select count(*) count
+		from blog
+		where blog_title like '%'||#{keyword}||'%'
+		]]>
+	</select>
+	
+	<select id="SelectSnumEnumName" parameterType="map" resultType="BlogVo">
+		<![CDATA[	
+			select rn
+			    ,id
+			    ,blog_title blogTitle
+			    ,user_name name
+			    ,logo_file saveName
+			    ,joinDate
+			from (	select rownum rn
+					    ,id
+					    ,blog_title
+					    ,user_name
+					    ,logo_file
+					    ,joinDate
+					from ( select b.id id
+					            ,blog_title
+					            ,user_name
+					            ,logo_file
+					            ,to_char(join_date, 'yyyy-mm-dd') joinDate
+				            from blog b, users u
+				            where b.id = u.id 
+				            and user_name like '%'||#{keyword}||'%'
+				            order by join_date desc ))
+			where rn >= #{sNum}
+			and rn <= #{eNum}
+		]]>
+	</select>
+	
+	<select id="SelectSnumEnumTitle" parameterType="map" resultType="BlogVo">
+		<![CDATA[	
+			select rn
+			    ,id
+			    ,blog_title blogTitle
+			    ,user_name name
+			    ,logo_file saveName
+			    ,joinDate
+			from (	select rownum rn
+					    ,id
+					    ,blog_title
+					    ,user_name
+					    ,logo_file
+					    ,joinDate
+					from ( select b.id id
+					            ,blog_title
+					            ,user_name
+					            ,logo_file
+					            ,to_char(join_date, 'yyyy-mm-dd') joinDate
+				            from blog b, users u
+				            where b.id = u.id 
+				            and blog_title like '%'||#{keyword}||'%'
+				            order by join_date desc ))
+			where rn >= #{sNum}
+			and rn <= #{eNum}
+		]]>
+	</select>
+	
 	<insert id="CreateBlog" parameterType="map">
 		<![CDATA[
 			insert into blog(id, blog_title, logo_file)

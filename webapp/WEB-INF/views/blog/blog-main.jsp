@@ -144,7 +144,7 @@
 						<c:forEach begin="${bMap.startPageNum}" end="${bMap.endPageNum}" step="1" var="page">
 							<c:choose>
 								<c:when test="${bMap.crtPage==page}">
-									<li style="float:left;margin: 0px 8px 0px 8px;"><strong><a href="${pageContext.request.contextPath}//${bMap.bVo.id}?crtPage=${page}&postNo=${bMap.postNo}">${page}</a></strong></li>
+									<li style="float:left;margin: 0px 8px 0px 8px;"><strong><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?crtPage=${page}&postNo=${bMap.postNo}">${page}</a></strong></li>
 								</c:when>
 								<c:otherwise>
 									<li style="float:left;margin: 0px 8px 0px 8px;"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?crtPage=${page}&postNo=${bMap.postNo}">${page}</a></li>

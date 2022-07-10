@@ -33,7 +33,7 @@
 		</form>
 		
 		<div id="resultList">
-			<c:forEach items="${bList}" var="bVo">
+			<c:forEach items="${bMap.bList}" var="bVo">
 			<table border="1" > 
 				<tr>
 					<td><img style="width:80px;height:80px;"src="${pageContext.request.contextPath}/upload/${bVo.saveName}"></td>
@@ -44,6 +44,28 @@
 			</table>
 			</c:forEach>
 		</div>
+		
+		<div id="paging" style="margin: 0px 0px 0px 350px;">
+					<ul>
+						<c:if test="${bMap.prev == true}">
+							<li style="float:left;margin: 0px 8px 0px 8px;"> <a href="${pageContext.request.contextPath}/?keyword=${bMap.keyword}&kwdOpt=${bMap.kwdOpt}&crtPage=${bMap.startPageNum-pMap.pageBtnCount}">◀</a></li>
+						</c:if>
+						<c:forEach begin="${bMap.startPageNum}" end="${bMap.endPageNum}" step="1" var="page">
+							<c:choose>
+								<c:when test="${bMap.crtPage==page}">
+									<li style="float:left;margin: 0px 8px 0px 8px;"><strong><a href="${pageContext.request.contextPath}/?keyword=${bMap.keyword}&kwdOpt=${bMap.kwdOpt}&crtPage=${page}">${page}</a></strong></li>
+								</c:when>
+								<c:otherwise>
+									<li style="float:left;margin: 0px 8px 0px 8px;"><a href="${pageContext.request.contextPath}/?keyword=${bMap.keyword}&kwdOpt=${bMap.kwdOpt}&crtPage=${page}">${page}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${bMap.next == true}">
+							<li style="float:left;margin: 0px 40px 0px 40px;"><a href="${pageContext.request.contextPath}/?keyword=${bMap.keyword}&kwdOpt=${bMap.kwdOpt}&crtPage=${bMap.endPageNum+1}">▶</a></li>
+						</c:if>
+					</ul>
+				<div class="clear"></div>
+			</div>
 		
 		<!-- 메인 푸터  자리-->
 		<c:import url="/WEB-INF/views/includes/main-footer.jsp"></c:import>

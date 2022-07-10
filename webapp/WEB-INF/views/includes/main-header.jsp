@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 		<!-- 메인 로고 이미지를 링크하세요 logo.jpg -->
-	 	<a href="">
+	 	<a href="${pageContext.request.contextPath}/">
 			<img class="logo" src="${pageContext.request.contextPath}/assets/images/logo.jpg">
 		</a>
 		<ul class="menu">

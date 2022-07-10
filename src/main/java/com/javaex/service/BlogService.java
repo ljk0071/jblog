@@ -102,5 +102,78 @@ public class BlogService {
 		pMap.put("pageBtnCount", pageBtnCount);
 		return pMap;
 	}
+	
+	public Map<String, Object> getBlogTitleList(int crtPage, String keyword) {
+
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		crtPage = (crtPage > 0) ? crtPage : (crtPage = 1);
+
+		final int listCnt = 5;
+		final int pageBtnCount = 5;
+
+		int startRnum = (crtPage - 1) * listCnt + 1;
+		int endRnum = startRnum + listCnt - 1;
+
+		int endPageNum = (int) Math.ceil(crtPage / (double) pageBtnCount) * pageBtnCount;
+		int startPageNum = (endPageNum - pageBtnCount) + 1;
+		boolean prev = (startPageNum != 1) ? true : false;
+
+		boolean next = false;
+
+		int totalCnt = bDao.TitleTotalCnt(keyword);
+		if ((listCnt * endPageNum) < totalCnt) {
+			next = true;
+		} else {
+			endPageNum = (int) Math.ceil(totalCnt / (double) listCnt);
+		}
+
+		List<BlogVo> bList = bDao.SelectTitle(startRnum, endRnum, keyword);
+
+		bMap.put("bList", bList);
+		bMap.put("prev", prev);
+		bMap.put("next", next);
+		bMap.put("startPageNum", startPageNum);
+		bMap.put("endPageNum", endPageNum);
+		bMap.put("crtPage", crtPage);
+		bMap.put("pageBtnCount", pageBtnCount);
+		return bMap;
+	}
+	
+	public Map<String, Object> getBlogNameList(int crtPage, String keyword) {
+
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		crtPage = (crtPage > 0) ? crtPage : (crtPage = 1);
+
+		final int listCnt = 5;
+		final int pageBtnCount = 5;
+
+		int startRnum = (crtPage - 1) * listCnt + 1;
+		int endRnum = startRnum + listCnt - 1;
+
+		int endPageNum = (int) Math.ceil(crtPage / (double) pageBtnCount) * pageBtnCount;
+		int startPageNum = (endPageNum - pageBtnCount) + 1;
+		boolean prev = (startPageNum != 1) ? true : false;
+
+		boolean next = false;
+
+		int totalCnt = bDao.NameTotalCnt(keyword);
+		System.out.println(totalCnt);
+		if ((listCnt * endPageNum) < totalCnt) {
+			next = true;
+		} else {
+			endPageNum = (int) Math.ceil(totalCnt / (double) listCnt);
+		}
+
+		List<BlogVo> bList = bDao.SelectName(startRnum, endRnum, keyword);
+
+		bMap.put("bList", bList);
+		bMap.put("prev", prev);
+		bMap.put("next", next);
+		bMap.put("startPageNum", startPageNum);
+		bMap.put("endPageNum", endPageNum);
+		bMap.put("crtPage", crtPage);
+		bMap.put("pageBtnCount", pageBtnCount);
+		return bMap;
+	}
 
 }

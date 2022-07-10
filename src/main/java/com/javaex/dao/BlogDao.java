@@ -29,6 +29,15 @@ public class BlogDao {
 	public List<BlogVo> getSearchName(String keyword) {
 		return sqlSession.selectList("blog.SearchInfoName", keyword);
 	}
+	public int NameTotalCnt(String keyword) {
+		cnt = sqlSession.selectOne("blog.NameTotal", keyword);
+		return cnt;
+	}
+	
+	public int TitleTotalCnt(String keyword) {
+		cnt = sqlSession.selectOne("blog.TitleTotal", keyword);
+		return cnt;
+	}
 	
 	public int CreateBlog(String id, String name) {
 		Map<String, Object> bMap = new HashMap<String, Object>();
@@ -43,5 +52,22 @@ public class BlogDao {
 		cnt = sqlSession.update("blog.updateInfo", bVo);
 		return cnt;
 	}
+	
+	public List<BlogVo> SelectTitle(int startRnum, int endRnum, String keyword) {
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("keyword", keyword);
+		bMap.put("sNum", startRnum);
+		bMap.put("eNum", endRnum);
+		return sqlSession.selectList("blog.SelectSnumEnumTitle", bMap);
+	}
+	
+	public List<BlogVo> SelectName(int startRnum, int endRnum, String keyword) {
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("keyword", keyword);
+		bMap.put("sNum", startRnum);
+		bMap.put("eNum", endRnum);
+		return sqlSession.selectList("blog.SelectSnumEnumName", bMap);
+	}
+	
 
 }
