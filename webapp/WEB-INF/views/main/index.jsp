@@ -19,13 +19,13 @@
 		
 		<form id="search-form">
 			<fieldset>
-				<input type="text" name="keyword" >
+				<input type="text" name="keyword" value="">
 				<button id="btnSearch" type="submit" >검색</button>
 			</fieldset>
 			
 			<fieldset>
 				<label for="rdo-title">블로그 제목</label> 
-				<input id="rdo-title" type="radio" name="kwdOpt" value="optTitle" > 
+				<input id="rdo-title" type="radio" name="kwdOpt" value="optTitle" checked="checked"> 
 				
 				<label for="rdo-userName">블로거 이름</label> 
 				<input id="rdo-userName" type="radio" name="kwdOpt" value="optName" > 
@@ -33,8 +33,16 @@
 		</form>
 		
 		<div id="resultList">
-			
-			
+			<c:forEach items="${bList}" var="bVo">
+			<table border="1" > 
+				<tr>
+					<td><img style="width:80px;height:80px;"src="${pageContext.request.contextPath}/upload/${bVo.saveName}"></td>
+					<td style="width:420px;">${bVo.blogTitle}</td>
+					<td style="width:200px;">${bVo.name}(${bVo.id})</td>
+					<td style="width:300px;">${bVo.joinDate}</td>
+				</tr>
+			</table>
+			</c:forEach>
 		</div>
 		
 		<!-- 메인 푸터  자리-->

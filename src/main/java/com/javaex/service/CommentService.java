@@ -19,10 +19,10 @@ public class CommentService {
 		return cmtDao.Select(cmtVo);
 	}
 
-	public List<CommentVo> getCmtList(String id) {
-		return cmtDao.SelectAll(id);
+	public List<CommentVo> getCmtList(int postNo) {
+		return cmtDao.SelectAll(postNo);
 	}
-
+	
 	public int doDeleteCmt(int cmtNo) {
 		return cmtDao.Delete(cmtNo);
 	}

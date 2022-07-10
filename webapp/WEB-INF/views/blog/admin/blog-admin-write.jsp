@@ -14,7 +14,7 @@
 
 <body>
 	<c:choose>
-		<c:when test="${authUser.id != bVo.id}">
+		<c:when test="${authUser.id != bMap.bVo.id}">
 			<c:import url="/WEB-INF/views/error/403.jsp"></c:import>
 		</c:when>
 	<c:otherwise>
@@ -24,14 +24,14 @@
 
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/basic">기본설정</a></li>
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/category">카테고리</a></li>
-				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/writeForm">글작성</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/basic">기본설정</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/category">카테고리</a></li>
+				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/writeForm">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
 			
 			<div id="admin-content">
-				<form action="${pageContext.request.contextPath}/${bVo.id}/admin/write" method="post">
+				<form action="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/write" method="post">
 			      	<table id="admin-write">
 			      		<colgroup>
 							<col style="width: 100px;">
@@ -46,7 +46,7 @@
 				      		<td>
 				      			<select name="cateNo">
 <!-- 				      				카테고리 리스트 영역 -->
-				      				<c:forEach items="${cateInfoList}" var="cate">
+				      				<c:forEach items="${bMap.cateInfoList}" var="cate">
 				      					<option value="${cate.cateNo}">${cate.cateName}</option>
 				      				</c:forEach>
 <!-- 				      				카테고리 리스트 영역 -->

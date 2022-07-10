@@ -13,7 +13,7 @@
 
 <body>
 	<c:choose>
-		<c:when test="${authUser.id != bVo.id}">
+		<c:when test="${authUser.id != bMap.bVo.id}">
 			<c:import url="/WEB-INF/views/error/403.jsp"></c:import>
 		</c:when>
 	<c:otherwise>
@@ -25,14 +25,14 @@
 
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
-				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/basic">기본설정</a></li>
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/category">카테고리</a></li>
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/writeForm">글작성</a></li>
+				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/basic">기본설정</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/category">카테고리</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/writeForm">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
 			
 			<div id="admin-content">
-				<form action="${pageContext.request.contextPath}/${bVo.id}/modify" method="post" enctype="multipart/form-data">
+				<form action="${pageContext.request.contextPath}/${bMap.bVo.id}/modify" method="post" enctype="multipart/form-data">
 	 		      	<table id="admin-basic">
 	 		      		<colgroup>
 							<col style="width: 100px;">
@@ -40,11 +40,11 @@
 						</colgroup>
 			      		<tr>
 			      			<td><label for="textTitle">블로그 제목</label></td>
-			      			<td><input id="textTitle" type="text" name="blogTitle" value="${bVo.blogTitle}"></td>
+			      			<td><input id="textTitle" type="text" name="blogTitle" value="${bMap.bVo.blogTitle}"></td>
 			      		</tr>
 			      		<tr>
 			      			<td><label>로고이미지</label></td>
-			      			<td class="text-left"><img src="${pageContext.request.contextPath}/upload/${bVo.saveName}"></td>   
+			      			<td class="text-left"><img src="${pageContext.request.contextPath}/upload/${bMap.bVo.saveName}"></td>   
 			      		</tr>      		
 			      		<tr>
 			      			<td>&nbsp;</td>

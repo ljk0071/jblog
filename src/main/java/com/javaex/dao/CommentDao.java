@@ -23,9 +23,10 @@ public class CommentDao {
 		return sqlSession.selectOne("comment.Select", cmtVo);
 	}
 	
-	public List<CommentVo> SelectAll(String id) {
-		return sqlSession.selectList("comment.SelectAll", id);
+	public List<CommentVo> SelectAll(int postNo) {
+		return sqlSession.selectList("comment.SelectAll", postNo);
 	}
+
 	public int Delete(int cmtNo) {
 		return sqlSession.delete("comment.Delete", cmtNo);
 	}

@@ -1,6 +1,8 @@
 package com.javaex.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,7 @@ public class PostController {
 	@ResponseBody
 	@RequestMapping(value = "/{id}/cate", method = { RequestMethod.GET, RequestMethod.POST })
 	public List<PostVo> pList(@PathVariable("id") String id, @RequestBody int cateNo) {
-		return pService.getPostInfo(cateNo);
+		return pService.getPostList(cateNo);
 	}
 	
 	@ResponseBody
@@ -47,8 +49,10 @@ public class PostController {
 
 	@RequestMapping(value = "/{id}/admin/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String writeForm(@PathVariable("id") String id, Model model) {
-		model.addAttribute("bVo", bService.getBlogInfo(id));
-		model.addAttribute("cateInfoList", cService.getCateInfo(id));
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("bVo", bService.getBlogInfo(id));
+		bMap.put("cateInfoList", cService.getCateInfo(id));
+		model.addAttribute("bMap", bMap);
 		return "/blog/admin/blog-admin-write";
 	}
 

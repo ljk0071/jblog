@@ -59,7 +59,11 @@ public class CategoryDao {
 	}
 	
 	public int SelectLast(String id) {
-		cnt = sqlSession.selectOne("category.SelectLast", id);
+		try {
+			cnt = sqlSession.selectOne("category.SelectLast", id);
+		}catch (NullPointerException e) {
+			cnt = 1;
+		}
 		return cnt;
 	}
 

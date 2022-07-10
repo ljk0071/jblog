@@ -35,7 +35,12 @@
 					</div>
 					<ul id="cateList" class="text-left">
 						<c:forEach items="${bMap.cateInfoList}" var="cate">
-							<li data-cateno="${cate.cateNo}">${cate.cateName}</li>
+						<c:if test="${cate.cateNo==bMap.cateNo}">
+							<li><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?cateNo=${cate.cateNo}"><strong>${cate.cateName}</strong></a></li>
+						</c:if>
+						<c:if test="${cate.cateNo!=bMap.cateNo}">
+							<li><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?cateNo=${cate.cateNo}">${cate.cateName}</a></li>
+						</c:if>
 						</c:forEach>
 					</ul>
 				</div>
@@ -105,16 +110,30 @@
 				<div id="list">
 					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
 					<c:forEach items="${bMap.pList}" var="pVo">
-						<table>
-							<colgroup>
-							<col style=''>
-							<col style='width: 20%;'>
-							</colgroup>
-							<tr>
-							<td class='text-left' data-cateno='"+pVo.cateNo+"'>${pVo.postTitle}</td>
-							<td class='text-right'>${pVo.regDate}</td>
-							</tr>
-						</table>
+					<c:if test="${pVo.postNo!=bMap.postNo}">
+					<table>
+						<colgroup>
+						<col style=''>
+						<col style='width: 20%;'>
+						</colgroup>
+						<tr>
+						<td class='text-left'><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?postNo=${pVo.postNo}&crtPage=${bMap.crtPage}&cateNo=${bMap.cateNo}" >${pVo.postTitle}</a></td>
+						<td class='text-right'>${pVo.regDate}</td>
+						</tr>
+					</table>
+					</c:if>
+					<c:if test="${pVo.postNo==bMap.postNo}">
+					<table>
+						<colgroup>
+						<col style=''>
+						<col style='width: 20%;'>
+						</colgroup>
+						<tr>
+						<td class='text-left'><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?postNo=${pVo.postNo}&crtPage=${bMap.crtPage}&cateNo=${bMap.cateNo}" ><strong>${pVo.postTitle}</strong></a></td>
+						<td class='text-right'>${pVo.regDate}</td>
+						</tr>
+					</table>
+					</c:if>
 					</c:forEach>
 				</div>
 				<div id="paging" style="margin: 0px 0px 0px 350px;">
@@ -125,10 +144,10 @@
 						<c:forEach begin="${bMap.startPageNum}" end="${bMap.endPageNum}" step="1" var="page">
 							<c:choose>
 								<c:when test="${bMap.crtPage==page}">
-									<li style="float:left;margin: 0px 8px 0px 8px;"><strong><a href="${pageContext.request.contextPath}//${bMap.bVo.id}?crtPage=${page}">${page}</a></strong></li>
+									<li style="float:left;margin: 0px 8px 0px 8px;"><strong><a href="${pageContext.request.contextPath}//${bMap.bVo.id}?crtPage=${page}&postNo=${bMap.postNo}">${page}</a></strong></li>
 								</c:when>
 								<c:otherwise>
-									<li style="float:left;margin: 0px 8px 0px 8px;"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?crtPage=${page}">${page}</a></li>
+									<li style="float:left;margin: 0px 8px 0px 8px;"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}?crtPage=${page}&postNo=${bMap.postNo}">${page}</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -157,9 +176,9 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function() {
-// 		fetchList();
-	});
+// 	$(document).ready(function() {
+// // 		fetchList();
+// 	});
 	
 // 	function fetchList() {
 // 		$.ajax({
@@ -178,21 +197,21 @@
 // 			}
 // 		});
 // 	}
-	function postListRender(pVo) {
-		var str = "";
-		str += "	<table>";
-		str += "		<colgroup>";
-		str += "			<col style=''>";
-		str += "			<col style='width: 20%;'>";
-		str += "		</colgroup>";
-		str += "		<tr>";
-		str += "			<td class='text-left' data-cateno='"+pVo.cateNo+"'>"+pVo.postTitle+"</td>";
-		str += "			<td class='text-right'>"+pVo.regDate+"</td>";
-		str += "		</tr>";
-		str += "	</table>";
+// 	function postListRender(pVo) {
+// 		var str = "";
+// 		str += "	<table>";
+// 		str += "		<colgroup>";
+// 		str += "			<col style=''>";
+// 		str += "			<col style='width: 20%;'>";
+// 		str += "		</colgroup>";
+// 		str += "		<tr>";
+// 		str += "			<td class='text-left' data-cateno='"+pVo.cateNo+"'>"+pVo.postTitle+"</td>";
+// 		str += "			<td class='text-right'>"+pVo.regDate+"</td>";
+// 		str += "		</tr>";
+// 		str += "	</table>";
 		
-		$("#listTitle").append(str);
-	}
+// 		$("#listTitle").append(str);
+// 	}
 	
 	function cmtListRender(cmtVo, opt) {
 		var str = "";
@@ -217,86 +236,86 @@
 		}
 	}
 	
-	function postContentRender(pVo) {
-		var str = "";
-		str += "	<div id='postBox' class='clearfix'>";
-		str += "		<div data-postno='"+pVo.postNo+"' id='postTitle' class='text-left'><strong>"+pVo.postTitle+"</strong></div>";
-		str += "		<div id='postDate' class='text-left'><strong>"+pVo.regDate+"</strong></div>";
-		str += "		<div id='postNick'>${bVo.name}(${bVo.id})</div>";
-		str += "	</div>";
-		str += "	<div id='post'>";
-		str += "		"+pVo.postContent+"";
-		str += "	</div>";
+// 	function postContentRender(pVo) {
+// 		var str = "";
+// 		str += "	<div id='postBox' class='clearfix'>";
+// 		str += "		<div data-postno='"+pVo.postNo+"' id='postTitle' class='text-left'><strong>"+pVo.postTitle+"</strong></div>";
+// 		str += "		<div id='postDate' class='text-left'><strong>"+pVo.regDate+"</strong></div>";
+// 		str += "		<div id='postNick'>${bVo.name}(${bVo.id})</div>";
+// 		str += "	</div>";
+// 		str += "	<div id='post'>";
+// 		str += "		"+pVo.postContent+"";
+// 		str += "	</div>";
 		
-		$("#post_area").prepend(str);
-	}
+// 		$("#post_area").prepend(str);
+// 	}
 	
 	
-	function fetchCmtList() {
-		$.ajax({
+// 	function fetchCmtList() {
+// 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/${bVo.id}/cmtlist",
-			type : "post",
+// 			url : "${pageContext.request.contextPath}/${bVo.id}/cmtlist",
+// 			type : "post",
 
-			dataType : "json",
-			success : function(cmtList) {
-				for (var i = 0; i < cmtList.length; i++) {
-					cmtListRender(cmtList[i], "down");
-				}
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	}
+// 			dataType : "json",
+// 			success : function(cmtList) {
+// 				for (var i = 0; i < cmtList.length; i++) {
+// 					cmtListRender(cmtList[i], "down");
+// 				}
+// 			},
+// 			error : function(XHR, status, error) {
+// 				console.error(status + " : " + error);
+// 			}
+// 		});
+// 	}
 	
-	$("#cateList").on("click", "li", function() {
-		$("#listTitle tr").remove();
-		var $this = $(this);
-		var cateNo = $this.data("cateno");
-		$.ajax({
+// 	$("#cateList").on("click", "li", function() {
+// 		$("#listTitle tr").remove();
+// 		var $this = $(this);
+// 		var cateNo = $this.data("cateno");
+// 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/${bVo.id}/cate",
-			type : "post",
-			contentType : "application/json",
-			data : JSON.stringify(cateNo),
+// 			url : "${pageContext.request.contextPath}/${bVo.id}/cate",
+// 			type : "post",
+// 			contentType : "application/json",
+// 			data : JSON.stringify(cateNo),
 
-			dataType : "json",
-			success : function(pList) {
-				for (var i = 0; i < pList.length; i++) {
-					postListRender(pList[i]);
-				}
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	})
-	$("#listTitle").on("click", "td", function() {
-		$("#postBox").remove();
-		$("#post").remove();
-		var $this = $(this);
-		var cateNo = $this.data("cateno");
-		var pTitle = $this.text();
-		var pVo = {}
-		pVo.cateNo = cateNo;
-		pVo.postTitle = pTitle;
-		$.ajax({
+// 			dataType : "json",
+// 			success : function(pList) {
+// 				for (var i = 0; i < pList.length; i++) {
+// 					postListRender(pList[i]);
+// 				}
+// 			},
+// 			error : function(XHR, status, error) {
+// 				console.error(status + " : " + error);
+// 			}
+// 		});
+// 	})
+// 	$("#listTitle").on("click", "td", function() {
+// 		$("#postBox").remove();
+// 		$("#post").remove();
+// 		var $this = $(this);
+// 		var cateNo = $this.data("cateno");
+// 		var pTitle = $this.text();
+// 		var pVo = {}
+// 		pVo.cateNo = cateNo;
+// 		pVo.postTitle = pTitle;
+// 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/${bVo.id}/post",
-			type : "post",
-			contentType : "application/json",
-			data : JSON.stringify(pVo),
+// 			url : "${pageContext.request.contextPath}/${bVo.id}/post",
+// 			type : "post",
+// 			contentType : "application/json",
+// 			data : JSON.stringify(pVo),
 
-			dataType : "json",
-			success : function(pVo) {
-					postContentRender(pVo);
-			},
-			error : function(XHR, status, error) {
-				console.error(status + " : " + error);
-			}
-		});
-	})
+// 			dataType : "json",
+// 			success : function(pVo) {
+// 					postContentRender(pVo);
+// 			},
+// 			error : function(XHR, status, error) {
+// 				console.error(status + " : " + error);
+// 			}
+// 		});
+// 	})
 	$("#cmtBtn").on("click", function() {
 		var userNo = $(".userId").data("userno");
 		var cmtContent = $("#cmtContent").val();
@@ -308,7 +327,7 @@
 		console.log(cmtVo)
 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/${bVo.id}/comment",
+			url : "${pageContext.request.contextPath}/${bMap.bVo.id}/cmt",
 			type : "post",
 			contentType : "application/json",
 			data : JSON.stringify(cmtVo),
@@ -326,10 +345,10 @@
 	$("#cmtList").on("click", ".btnCmtDel", function() {
 		var $this = $(this);
 		var cmtNo = $this.data("cmtno");
-		console.log(cmtNo);
+		console.log(cmtNo)
 		$.ajax({
 	
-			url : "${pageContext.request.contextPath}/${bVo.id}/cmt/delete",
+			url : "${pageContext.request.contextPath}/${bMap.bVo.id}/cmt/delete",
 			type : "post",
 			contentType : "application/json",
 			data : JSON.stringify(cmtNo),

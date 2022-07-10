@@ -26,6 +26,9 @@ public class PostVo {
 		this.cateNo = cateNo;
 		this.postTitle = postTitle;
 	}
+	public PostVo(int postNo) {
+		this.postNo = postNo;
+	}
 	public int getPostNo() {
 		return postNo;
 	}

@@ -28,6 +28,14 @@ public class BlogService {
 	public BlogVo getBlogInfo(String id) {
 		return bDao.getBlogInfo(id);
 	}
+	
+	public List<BlogVo> getSearchTitle(String keyword) {
+		return bDao.getSearchTitle(keyword);
+	}
+	
+	public List<BlogVo> getSearchName(String keyword) {
+		return bDao.getSearchName(keyword);
+	}
 
 	public void doUpdate(BlogVo bVo) {
 

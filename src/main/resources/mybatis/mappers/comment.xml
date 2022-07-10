@@ -16,7 +16,7 @@
 		and cmt_content = #{cmtContent}
 	</select>
 	
-	<select id="SelectAll" parameterType="String" resultType="CommentVo">
+	<select id="SelectAll" parameterType="int" resultType="CommentVo">
 		select cmt_no cmtNo 
 			,post_no postNO
 			,c.user_no userNo
@@ -25,14 +25,9 @@
 			,to_char(reg_date, 'yyyy-mm-dd') regDate
 		from comments c, users u
 		where c.user_no = u.user_no
-		and post_no = (select max(post_no)
-                from comments
-                where user_no = (select user_no
-                                from users
-                                where id = #{id}))
+		and post_no = #{postNo}
         order by cmt_no desc
 	</select>
-	
 	
 	<insert id="InsertCmt" parameterType="CommentVo">
 		<![CDATA[

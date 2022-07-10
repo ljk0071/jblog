@@ -14,7 +14,7 @@
 
 <body>
 	<c:choose>
-		<c:when test="${authUser.id != bVo.id}">
+		<c:when test="${authUser.id != bMap.bVo.id}">
 			<c:import url="/WEB-INF/views/error/403.jsp"></c:import>
 		</c:when>
 	<c:otherwise>
@@ -25,9 +25,9 @@
 
 		<div id="content">
 			<ul id="admin-menu" class="clearfix">
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/basic">기본설정</a></li>
-				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/category">카테고리</a></li>
-				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bVo.id}/admin/writeForm">글작성</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/basic">기본설정</a></li>
+				<li class="tabbtn selected"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/category">카테고리</a></li>
+				<li class="tabbtn"><a href="${pageContext.request.contextPath}/${bMap.bVo.id}/admin/writeForm">글작성</a></li>
 			</ul>
 			<!-- //admin-menu -->
 			
@@ -106,7 +106,7 @@
 		
 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/${bVo.id}/cateList/add",
+			url : "${pageContext.request.contextPath}/${bMap.bVo.id}/cateList/add",
 			type : "post",
 			contentType : "application/json",
 			data : JSON.stringify(cVo),
@@ -126,7 +126,7 @@
 		var cateNo = $this.data("cateno");
 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/${bVo.id}/cateList/delete",
+			url : "${pageContext.request.contextPath}/${bMap.bVo.id}/cateList/delete",
 			type : "post",
 			contentType : "application/json",
 			data : JSON.stringify(cateNo),
@@ -149,7 +149,7 @@
 	function fetchList() {
 		$.ajax({
 
-			url : "${pageContext.request.contextPath}/${bVo.id}/cateList",
+			url : "${pageContext.request.contextPath}/${bMap.bVo.id}/cateList",
 			type : "post",
 
 			dataType : "json",

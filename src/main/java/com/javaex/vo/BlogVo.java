@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class BlogVo {
 	
-	private String id, blogTitle, name, saveName;
+	private String id, blogTitle, name, saveName, joinDate;
 	private MultipartFile logoFile;
 	
 	public BlogVo() {
@@ -14,12 +14,14 @@ public class BlogVo {
 		this.blogTitle = blogTitle;
 		this.logoFile = logoFile;
 	}
-//	// 
-//	public BlogVo(String id, String blogTitle, String name) {
-//		this.id = id;
-//		this.blogTitle = blogTitle;
-//		this.name = name;
-//	}
+	// 
+	public BlogVo(String id, String blogTitle, String name, String saveName, String joinDate) {
+		this.id = id;
+		this.blogTitle = blogTitle;
+		this.name = name;
+		this.saveName = saveName;
+		this.joinDate = joinDate;
+	}
 	// 방문자 있을 때 사용
 	public BlogVo(String id, String blogTitle, String name, String saveName) {
 		this.id = id;
@@ -57,12 +59,15 @@ public class BlogVo {
 	public void setLogoFile(MultipartFile logoFile) {
 		this.logoFile = logoFile;
 	}
+	public String getJoinDate() {
+		return joinDate;
+	}
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
 	@Override
 	public String toString() {
 		return "BlogVo [id=" + id + ", blogTitle=" + blogTitle + ", name=" + name + ", saveName=" + saveName
-				+ ", logoFile=" + logoFile + "]";
+				+ ", joinDate=" + joinDate + ", logoFile=" + logoFile + "]";
 	}
-	
-
-	
 }

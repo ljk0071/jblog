@@ -1,5 +1,6 @@
 package com.javaex.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +29,34 @@ public class BlogController {
 	private PostService pService;
 	@Autowired
 	private CommentService cmtService;
+	
+	private Map<String, Object> bMap = new HashMap<String, Object>();
 
 	@RequestMapping(value = "/{id}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String main(Model model, @PathVariable("id") String id, @RequestParam(value="crtPage", required=false, defaultValue="1")int crtPage) {
-		int cnt = cService.getLastCate(id);
-		Map<String, Object> bMap = bService.getBlogPostList(crtPage, id, cnt);
-		bMap.put("bVo", bService.getBlogInfo(id));
-		bMap.put("cateInfoList", cService.getCateInfo(id));
-		bMap.put("pVo", pService.getLastPost(id));
-		bMap.put("cmtList", cmtService.getCmtList(id));
-		model.addAttribute("bMap", bMap);
+	public String main(Model model, @PathVariable("id") String id, @RequestParam(value="crtPage", required=false, defaultValue="1")int crtPage,
+			@RequestParam(value="cateNo", required=false, defaultValue="-1")int cateNo, @RequestParam(value="postNo", required=false, defaultValue="-1")int postNo) {
+		if( !( id.contains("cateList")|| id.contains("cmt") || id.contains("post") || id.contains("upload") )) {
+			bMap = (cateNo == -1) ? bService.getBlogPostList(crtPage, id, cService.getLastCate(id)) : bService.getBlogPostList(crtPage, id, cateNo);
+			if ( postNo == -1) {
+				bMap.put("pVo", pService.getLastPost(id));
+				postNo = pService.getLastPost(id).getPostNo();
+			} else {
+				bMap.put("pVo", pService.getPostContent(postNo));
+			}
+			bMap.put("bVo", bService.getBlogInfo(id));
+			bMap.put("cateInfoList", cService.getCateInfo(id));
+			bMap.put("cmtList", cmtService.getCmtList(postNo));
+			bMap.put("cateNo", cateNo);
+			bMap.put("postNo", postNo);
+			model.addAttribute("bMap", bMap);
+		}
 		return "/blog/blog-main";
 	}
 
 	@RequestMapping(value = "/{id}/admin/basic", method = { RequestMethod.GET, RequestMethod.POST })
 	public String basic(Model model, @PathVariable("id") String id) {
-		model.addAttribute("bVo", bService.getBlogInfo(id));
+		bMap.put("bVo", bService.getBlogInfo(id));
+		model.addAttribute("bMap", bMap);
 		return "/blog/admin/blog-admin-basic";
 	}
 
@@ -51,13 +64,15 @@ public class BlogController {
 	public String modifybasic(Model model, @PathVariable("id") String id, @ModelAttribute BlogVo bVo) {
 		bVo.setId(id);
 		bService.doUpdate(bVo);
-		model.addAttribute("bVo", bService.getBlogInfo(id));
+		bMap.put("bVo", bService.getBlogInfo(id));
+		model.addAttribute("bMap", bMap);
 		return "redirect:/" + id;
 	}
 
 	@RequestMapping(value = "/{id}/admin/category", method = { RequestMethod.GET, RequestMethod.POST })
 	public String modifycate(Model model, @PathVariable("id") String id) {
-		model.addAttribute("bVo", bService.getBlogInfo(id));
+		bMap.put("bVo", bService.getBlogInfo(id));
+		model.addAttribute("bMap", bMap);
 		return "/blog/admin/blog-admin-cate";
 	}
 

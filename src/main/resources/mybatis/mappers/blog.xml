@@ -15,11 +15,38 @@
 		]]>
 	</select>
 	
+	<select id="SearchInfoTitle" parameterType="String" resultType="BlogVo">
+		<![CDATA[
+		select b.id id
+			,blog_title blogTitle
+			,user_name name
+			,logo_file saveName
+			,to_char(join_date, 'yyyy-mm-dd') joinDate
+		from blog b, users u
+		where b.id = u.id 
+		and blog_title like '%'||#{keyword}||'%'
+		]]>
+	</select>
+	
+	<select id="SearchInfoName" parameterType="String" resultType="BlogVo">
+		<![CDATA[
+		select b.id id
+			,blog_title blogTitle
+			,user_name name
+			,logo_file saveName
+			,join_date joinDate
+		from blog b, users u
+		where b.id = u.id 
+		and user_name like '%'||#{keyword}||'%'
+		]]>
+	</select>
+	
 	<insert id="CreateBlog" parameterType="map">
 		<![CDATA[
-			insert into blog(id, blog_title)
+			insert into blog(id, blog_title, logo_file)
 			values ( #{id}
-					,#{blogTitle} )
+					,#{blogTitle}
+					,#{saveName} )
 		]]>
 	</insert>
 	
